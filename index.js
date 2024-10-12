@@ -7,13 +7,14 @@ app.use(express.json());
 const bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({extended: false}));
 
-const path = require("path");
+const path = require('path');
 app.use(express.static(path.join(__dirname, "public")));
 
 let sites=[];
 
 app.post("/sites",(req,res)=>{
     let site={};
+    site.id    =        req.body.id;
     site.name  =        req.body.name;
     sites.push(site);
     
