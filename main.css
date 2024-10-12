@@ -4,3 +4,24 @@ body
     background-color: rgb(238, 233, 226); 
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+table {
+    width: 50%;
+    margin: auto;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  th, td {
+    padding: 12px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  th {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+  }
+
+  tr:hover {
+    background-color: #ddd;
+  }
