@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ניהול האתרים</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+
+<button onclick="showListSites()">הצג רשימת אתרים</button>
+
+<div id="ShowListToManage" style="display: none;">
+    
+    <table>  
+        <tr>
+            <th></th>
+            <th>שם האתר</th>
+        </tr>
+        
+        <tbody id="table_body"></tbody>
+    </table>
+</div>
+
+
+<script>
+
+let AllSites=[];
+    async function getAllSites(){
+        let url = "/sites";
+        let response = await fetch(url);
+        let data = await response.json();
+        AllSites=data;
+    }
+function showSitesAsTable(){
+        let html="";
+        for(let idx in AllSites) {
+            let row=AllSites[idx];
+            html += "<tr>";
+            html += `<td>${row.name}</td>`;
+            html += "</tr>";
+        }
+        document.getElementById('table_body').innerHTML=html;
+    }
+
+    async function showListSites()
+    {
+        await getAllSites();
+        showSitesAsTable();
+        document.getElementById('ShowListToManage').style.display="block";
+    }
+</script>
+</body>
+</html>
