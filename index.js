@@ -14,7 +14,6 @@ let sites=[];
 
 app.post("/sites",(req,res)=>{
     let site={};
-    site.id    =        req.body.id;
     site.name  =        req.body.name;
     sites.push(site);
     
