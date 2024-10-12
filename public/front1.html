@@ -6,15 +6,22 @@
     <link rel="stylesheet" href="/main.css">
 </head>
 <body>
+    <div id="AddSite" style="background-color: rgba(245, 124, 32, 0.774);padding: 15px;">
+        <label for="site_name">שם המיקום</label>
+        <input type="text" id="site_name" />
+        <button id="btn_add" onclick="AddSite()">הוסף מיקום</button>
+        <br><br>
+        <button onclick="showListSites()">הצג רשימת מקומות</button>
+       
+    </div>
 
-<button onclick="showListSites()">הצג רשימת אתרים</button>
 
-<div id="ShowListToManage" style="display: none;">
+<div id="ShowListToManage" style="display: none;padding: 15px;">
     
-    <table>  
+    <table border="3">  
         <tr>
-            <th></th>
-            <th>שם האתר</th>
+            <th >מיספור</th>
+            <th>שם המקום</th>
         </tr>
         
         <tbody id="table_body"></tbody>
@@ -31,12 +38,37 @@ let AllSites=[];
         let data = await response.json();
         AllSites=data;
     }
+
+    async function AddSiteToList()
+    {
+        let name  = document.getElementById("site_name").value;
+       
+        let url = "/sites";
+        let response=await fetch(url,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({name:name})
+            }
+        );
+        
+    }
+
+    function AddSite()
+    {
+        AddSiteToList();
+        showSitesAsTable();
+    }
 function showSitesAsTable(){
         let html="";
         for(let idx in AllSites) {
             let row=AllSites[idx];
+            let num=++idx;
             html += "<tr>";
-            html += `<td>${row.name}</td>`;
+            html += `<td>${num}</td>`;
+             html += `<td>${row.name}</td>`
             html += "</tr>";
         }
         document.getElementById('table_body').innerHTML=html;
