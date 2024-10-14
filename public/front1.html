@@ -6,22 +6,25 @@
     <link rel="stylesheet" href="/main.css">
 </head>
 <body>
-    <div id="AddSite" style="background-color: rgba(245, 124, 32, 0.774);padding: 15px;">
-        <button onclick="showListSites()">הצג רשימת מקומות</button>
+    <div id="option_div"style="background-color: rgba(245, 124, 32, 0.774);padding: 15px;">
+    <button onclick="showListSites()">הצג רשימת מקומות</button>
+    <div id="AddSite">
+        
          <br><br>
         <label for="site_name" style="font-weight: bolder;">שם המיקום:</label>
         <input type="text" id="site_name" />
         <button id="btn_add" onclick="AddSite()" >הוסף מיקום</button>
-      
+        </div>
         <br><br>
+        <div id="EditSite" style="display: none;">
         <input id="num_idx" type="hidden">
-        <label for="site_name1" style="font-weight: bolder;display: none;">ערוך מיקום:</label>
-        <input type="text" id="site_name1" style="display: none;"/>
-        <button id="btn_add" onclick="AddSite()" style="display: none">ערוך</button>  
-       
+        <label for="site_name1" style="font-weight: bolder;">ערוך מיקום:</label>
+        <input type="text" id="site_name1" />
+        <button id="btn_add" onclick="EditSiteBtn()" >ערוך</button>  
+       </div>
         
-       
-    </div>
+       </div>
+  
 
 
 <div id="ShowListToManage" style="display: none;padding: 15px;">
@@ -63,12 +66,16 @@ let AllSites=[];
         );
       
     }
-
+    function AddSiteBtn()
+    {
+        document.getElementById("AddSite").style.display="block";
+    }
    async function AddSite()
     {
         await AddSiteToList();
         await getAllSites();
         showSitesAsTable();
+        document.getElementById("site_name").value="";
     }
    
 function showSitesAsTable(){
@@ -103,15 +110,15 @@ function showSitesAsTable(){
     {
         document.getElementById("num_idx").value=idx;
         document.getElementById("site_name1").value=name;
-        
+        document.getElementById("EditSite").style.display="block";
     }
-    async function EditItem(){
-        
-        let idx   = document.getElementById("item_idx").value;
-        let name  = document.getElementById("item_name").value;
+    async function EditSiteBtn(){
+        document.getElementById("EditSite").style.display="block";
+        let idx   = document.getElementById("num_idx").value;
+        let name  = document.getElementById("site_name1").value;
         let body_data = JSON.stringify({id:idx,name:name});
         console.log(body_data);
-        let url = "/Item";
+        let url = "/sites";
         let response=await fetch(url,
             {
                 method: 'put',
@@ -121,10 +128,20 @@ function showSitesAsTable(){
                 body: body_data
             }
         );
-        let data=await response.json();
-        await check();
-        document.getElementById("AddItem").style.display="none";
+        if (response.ok) 
+        {
+         AllSites[idx].name = name;
+        showSitesAsTable();
+        
+      
+        document.getElementById("EditSite").style.display = "none";
+       } 
+       else 
+      {
+        console.error("Failed to update site");
+      }   
     }
+
     async function showListSites()
     {
         await getAllSites();
