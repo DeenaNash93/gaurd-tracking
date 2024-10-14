@@ -11,13 +11,13 @@
          <br><br>
         <label for="site_name" style="font-weight: bolder;">שם המיקום:</label>
         <input type="text" id="site_name" />
-        <button id="btn_add" onclick="AddSite()">הוסף מיקום</button>
+        <button id="btn_add" onclick="AddSite()" >הוסף מיקום</button>
       
         <br><br>
         <input id="num_idx" type="hidden">
-        <label for="site_name1" style="font-weight: bolder;">ערוך מיקום:</label>
-        <input type="text" id="site_name1" />
-        <button id="btn_add" onclick="AddSite()">ערוך</button>  
+        <label for="site_name1" style="font-weight: bolder;display: none;">ערוך מיקום:</label>
+        <input type="text" id="site_name1" style="display: none;"/>
+        <button id="btn_add" onclick="AddSite()" style="display: none">ערוך</button>  
        
         
        
@@ -75,11 +75,12 @@ function showSitesAsTable(){
         let html="";
         for(let idx in AllSites) {
             let row=AllSites[idx];
-            let num=++idx;
+            let num=idx;
+            num++;
             html += "<tr>";
             html += `<td id="id_td_num">${num}</td>`;
             html += `<td>${row.name}</td>`
-            html += `<td id="id_td"><button onclick="editSite(${--num},'${row.name}');">edit</button> &nbsp;&nbsp;&nbsp;<button onclick="removeSite(${--num});">delete</button></td>`;
+            html += `<td id="id_td"><button onclick="editSite(${idx},'${row.name}');">edit</button> &nbsp;&nbsp;&nbsp;<button onclick="removeSite(${idx});">delete</button></td>`;
             html += "</tr>";
         }
         document.getElementById('table_body').innerHTML=html;
