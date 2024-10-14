@@ -7,21 +7,29 @@
 </head>
 <body>
     <div id="AddSite" style="background-color: rgba(245, 124, 32, 0.774);padding: 15px;">
-        <label for="site_name">שם המיקום</label>
+        <button onclick="showListSites()">הצג רשימת מקומות</button>
+         <br><br>
+        <label for="site_name" style="font-weight: bolder;">שם המיקום:</label>
         <input type="text" id="site_name" />
         <button id="btn_add" onclick="AddSite()">הוסף מיקום</button>
+      
         <br><br>
-        <button onclick="showListSites()">הצג רשימת מקומות</button>
+        <input id="num_idx" type="hidden">
+        <label for="site_name1" style="font-weight: bolder;">ערוך מיקום:</label>
+        <input type="text" id="site_name1" />
+        <button id="btn_add" onclick="AddSite()">ערוך</button>  
+       
+        
        
     </div>
 
 
 <div id="ShowListToManage" style="display: none;padding: 15px;">
     
-    <table border="3">  
+    <table >  
         <tr>
-            <th >מיספור</th>
-            <th>שם המקום</th>
+            <th id="id_th1" >מיספור</th>
+            <th colspan="3">שם המקום</th>
         </tr>
         
         <tbody id="table_body"></tbody>
@@ -42,7 +50,7 @@ let AllSites=[];
     async function AddSiteToList()
     {
         let name  = document.getElementById("site_name").value;
-       
+        
         let url = "/sites";
         let response=await fetch(url,
             {
@@ -53,27 +61,69 @@ let AllSites=[];
                 body: JSON.stringify({name:name})
             }
         );
-        
+      
     }
 
-    function AddSite()
+   async function AddSite()
     {
-        AddSiteToList();
+        await AddSiteToList();
+        await getAllSites();
         showSitesAsTable();
     }
+   
 function showSitesAsTable(){
         let html="";
         for(let idx in AllSites) {
             let row=AllSites[idx];
             let num=++idx;
             html += "<tr>";
-            html += `<td>${num}</td>`;
-             html += `<td>${row.name}</td>`
+            html += `<td id="id_td_num">${num}</td>`;
+            html += `<td>${row.name}</td>`
+            html += `<td id="id_td"><button onclick="editSite(${--num},'${row.name}');">edit</button> &nbsp;&nbsp;&nbsp;<button onclick="removeSite(${--num});">delete</button></td>`;
             html += "</tr>";
         }
         document.getElementById('table_body').innerHTML=html;
     }
-
+    async function removeSite(idx){
+        let url = "/sites";
+        let response=await fetch(url,
+            {
+                method: 'delete',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id:idx})
+            }
+        );
+        let data=await response.json();
+        await showListSites();
+    }
+    function editSite(idx,name)
+    {
+        document.getElementById("num_idx").value=idx;
+        document.getElementById("site_name1").value=name;
+        
+    }
+    async function EditItem(){
+        
+        let idx   = document.getElementById("item_idx").value;
+        let name  = document.getElementById("item_name").value;
+        let body_data = JSON.stringify({id:idx,name:name});
+        console.log(body_data);
+        let url = "/Item";
+        let response=await fetch(url,
+            {
+                method: 'put',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: body_data
+            }
+        );
+        let data=await response.json();
+        await check();
+        document.getElementById("AddItem").style.display="none";
+    }
     async function showListSites()
     {
         await getAllSites();
