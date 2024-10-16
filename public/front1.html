@@ -61,7 +61,7 @@ let AllSites=[];
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({name:name})
+                body: JSON.stringify({id:"",name:name,time:""})
             }
         );
       
@@ -117,7 +117,7 @@ function showSitesAsTable(){
         document.getElementById("EditSite").style.display="block";
         let idx   = document.getElementById("num_idx").value;
         let name  = document.getElementById("site_name1").value;
-        let body_data = JSON.stringify({id:idx,name:name});
+        let body_data = JSON.stringify({id:idx,name:name,time:""});
         console.log(body_data);
         let url = "/sites";
         let response=await fetch(url,
