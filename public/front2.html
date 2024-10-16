@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/main.css">
+</head>
+<body>
+ <div id="ShowListTime" style="padding: 15px;"></div>
+    <button onclick="mainPage()">חזרה לעריכת הטבלה</button>
+    <table >  
+        <tr>
+            <th id="id_th1" >מיספור</th>
+            <th colspan="3">שם המקום</th>
+            <th id="id_th_time">זמן ביקור</th>
+        </tr>
+        
+        <tbody id="table_body"></tbody>
+    </table>
+</div> 
+
+<script>
+
+let AllSites=[];
+    async function getAllSites(){
+        let url = "/sites";
+        let response = await fetch(url);
+        let data = await response.json();
+        AllSites=data;
+        console.log(AllSites);
+    }  
+function showVisitAsTable(){
+        let html="";
+        for(let idx in AllSites) {
+            let row=AllSites[idx];
+            let num=idx;
+            num++;
+            html += "<tr>";
+            html += `<td id="id_td_num">${num}</td>`;
+            html += `<td>${row.name}</td>`
+            html += `<td id="id_td"><button onclick="editSite(${idx},'${row.name}');">ביקרתי</button></td>`;
+            html += `<td id="id_td_time"></td>`;
+            html += "</tr>";
+        }
+        document.getElementById('table_body').innerHTML=html;
+    }
+
+   async function f1()
+    {
+       await getAllSites();
+        showVisitAsTable();
+    }
+    function mainPage() 
+  {
+ window.location.href = "/"
+  }
+    f1();
+</script>
+</body>
+</html>
