@@ -34,8 +34,7 @@ function showVisitAsTable(){
         let html="";
         for(let idx in AllSites) {
             let row=AllSites[idx];
-            let num=idx;
-            num++;
+            let num = parseInt(idx) + 1;
             html += "<tr>";
             html += `<td id="id_td_num">${num}</td>`;
             html += `<td>${row.name}</td>`
