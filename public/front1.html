@@ -28,7 +28,7 @@
 
 
 <div id="ShowListToManage" style="display: none;padding: 15px;">
-    
+    <button onclick="checkTime() "> ללוח הביקורים</button>
     <table >  
         <tr>
             <th id="id_th1" >מיספור</th>
@@ -82,8 +82,7 @@ function showSitesAsTable(){
         let html="";
         for(let idx in AllSites) {
             let row=AllSites[idx];
-            let num=idx;
-            num++;
+            let num = parseInt(idx) + 1;
             html += "<tr>";
             html += `<td id="id_td_num">${num}</td>`;
             html += `<td>${row.name}</td>`
@@ -93,6 +92,8 @@ function showSitesAsTable(){
         document.getElementById('table_body').innerHTML=html;
     }
     async function removeSite(idx){
+        document.getElementById("site_name").value="";
+        document.getElementById("EditSite").style.display="none";
         let url = "/sites";
         let response=await fetch(url,
             {
@@ -141,6 +142,18 @@ function showSitesAsTable(){
         console.error("Failed to update site");
       }   
     }
+
+    
+  
+  async function checkTime() 
+  {
+    const response = await fetch('/checktime');
+    if (response.ok) {
+      window.location.href = "/checktime";
+    } else {
+      console.error('Failed to navigate to /checktime');
+    }
+  }
 
     async function showListSites()
     {
