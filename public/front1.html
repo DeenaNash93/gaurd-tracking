@@ -7,28 +7,23 @@
 </head>
 <body>
     <div id="option_div"style="background-color:rgba(245, 124, 32, 0.774);padding: 15px;" >
-    <button onclick="showListSites()">הצג רשימת מקומות</button>
-    <div id="AddSite">
-        
-         <br><br>
-        <label for="site_name" style="font-weight: bolder;">שם המיקום:</label>
-        <input type="text" id="site_name" />
-        <button id="btn_add" onclick="AddSite()" >הוסף מיקום</button>
-        </div>
-        <br><br>
-        <div id="EditSite" style="display: none;">
-        <input id="num_idx" type="hidden">
+        <h2>עריכת טבלת מקומות למעקב</h2>
+    <button onclick="showListSites()">הצג רשימת מקומות</button> &nbsp;&nbsp;&nbsp;<button onclick="checkTime() "> ללוח הביקורים</button>
+    </div>
+
+<div class="container" id="ShowListToManage" style="display: none;padding: 15px;"> 
+    <div id="AddSite" >
+    <label for="site_name" style="font-weight: bolder;">שם המיקום:</label>
+        <input oninput="clearEdit()"="text" id="site_name" />
+        <button id="btn_add" onclick="AddSite()" >הוסף מיקום</button> 
+    </div>
+    <div id="EditSite" style="display: none;">
+         <input id="num_idx" type="hidden">
         <label for="site_name1" style="font-weight: bolder;">ערוך מיקום:</label>
         <input type="text" id="site_name1" />
-        <button id="btn_add" onclick="EditSiteBtn()" >ערוך</button>  
-       </div>
-        
-       </div>
-  
-
-
-<div id="ShowListToManage" style="display: none;padding: 15px;">
-    <button onclick="checkTime() "> ללוח הביקורים</button>
+        <button id="btn_add" onclick="EditSiteBtn()" >ערוך</button>
+    </div>
+    <div class="table-container">
     <table >  
         <tr>
             <th id="id_th1" >מיספור</th>
@@ -37,6 +32,7 @@
         
         <tbody id="table_body"></tbody>
     </table>
+</div>
 </div>
 
 
@@ -154,12 +150,16 @@ function showSitesAsTable(){
       console.error('Failed to navigate to /checktime');
     }
   }
-
+   function clearEdit()
+   {
+    document.getElementById("EditSite").style.display="none";
+   }
     async function showListSites()
     {
         await getAllSites();
         showSitesAsTable();
-        document.getElementById('ShowListToManage').style.display="block";
+        document.getElementById('ShowListToManage').style.display="grid";
+      
     }
 </script>
 </body>
