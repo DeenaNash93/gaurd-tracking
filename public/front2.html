@@ -13,7 +13,7 @@
         <tr>
             <th id="id_th1" >מיספור</th>
             <th colspan="2">שם המקום</th>
-            <th id="id_th_time">זמן ביקור</th>
+            <th id="id_th_time">שעת הביקור</th>
         </tr>
         
         <tbody id="table_body"></tbody>
@@ -40,15 +40,15 @@ function showVisitAsTable(){
             html += `<td id="id_td_num">${num}</td>`;
             html += `<td>${row.name}</td>`
             html += `<td id="id_td"><button onclick="AddTimeToList(${idx},'${row.name}')">ביקרתי</button></td>`;
-            html += `<td id="time_${idx}">${time}</td>`;
+            html += `<td class="td_class"id="time_${idx}">${time}</td>`;
             html += "</tr>";
         }
         document.getElementById('table_body').innerHTML=html;
     }
     async function AddTimeToList(idx,name)
     {    
-        let id=idx;  
-        let name1=name; 
+      let id=idx;  
+      let name1=name; 
       const now = new Date(); // יוצרת אובייקט תאריך עם הזמן הנוכחי
       const hours = now.getHours().toString().padStart(2, '0'); // שעות בפורמט דו-ספרתי
       const minutes = now.getMinutes().toString().padStart(2, '0'); // דקות בפורמט דו-ספרתי
@@ -92,4 +92,3 @@ function showVisitAsTable(){
 </script>
 </body>
 </html>
-
