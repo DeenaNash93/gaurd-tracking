@@ -1,20 +1,58 @@
 body
 {
     direction: rtl;
-    background-color: rgb(238, 233, 226); 
+    background-color: rgb(238, 233, 226);
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+.container {
+    grid-template-columns: 60px 60px 60px 60px ;
+    grid-template-rows: 60px 60px 60px  60px ;
+}
+#AddSite
+{
+  grid-row: 1/3;
+  grid-column: 1/6;
+}
+    
+
+ #EditSite 
+ {
+    grid-row: 1/3;
+    grid-column:6/8;
+  
+}
+
+.table-container
+{
+    grid-row: 2/3;
+    grid-column: 3/10; 
+}
+
 table {
     width: 50%;
     margin: auto;
     border-collapse: collapse;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+  #id_td_num,#id_th1
+  {
+    border-left: 1px solid  #ddd;
 
+  }
+
+  #id_th_time
+  {
+    border-right:1px solid  #ddd ;
+  }
+  .td_class
+  {
+    border-right:1px solid  #ddd;
+  }
   th, td {
-    padding: 12px;
+    padding: 7px;
     text-align: center;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid  #ddd;
   }
   th {
     background-color: #4CAF50;
@@ -25,3 +63,22 @@ table {
   tr:hover {
     background-color: #ddd;
   }
+  button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 10px;
+    margin: 6px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+button:hover {
+    background-color: #45a049;
+    transform: scale(1.05);
+}
+
+button:active {
+    transform: scale(0.98);
+}
