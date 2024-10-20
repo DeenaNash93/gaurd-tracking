@@ -13,7 +13,8 @@
         <tr>
             <th id="id_th1" >מיספור</th>
             <th colspan="2">שם המקום</th>
-            <th id="id_th_time">שעת הביקור</th>
+            <th id="id_th_time_in">זמן כניסה</th>
+            <th id="id_th_time_out">זמן יציאה</th>
         </tr>
         
         <tbody id="table_body"></tbody>
@@ -35,17 +36,20 @@ function showVisitAsTable(){
         for(let idx in AllSites) {
             let row=AllSites[idx];
             let num = parseInt(idx) + 1;
-            let time = row.time || ""; 
+            let time_in = row.time_in || ""; 
+            let time_out=row.time_out|| "";
             html += "<tr>";
             html += `<td id="id_td_num">${num}</td>`;
             html += `<td>${row.name}</td>`
-            html += `<td id="id_td"><button onclick="AddTimeToList(${idx},'${row.name}')">ביקרתי</button></td>`;
-            html += `<td class="td_class"id="time_${idx}">${time}</td>`;
+            html += `<td id="id_td"><button onclick="AddTimeToList_in(${idx},'${row.name}')">כניסה</button> &nbsp;&nbsp;
+                <button onclick="AddTimeToList_out(${idx},'${row.name}')">יציאה</button> </td>`;
+            html += `<td class="td_class"id="time_in${idx}">${time_in}</td>`;
+            html += `<td class="td_class1"id="time_out${idx}">${time_out}</td>`;
             html += "</tr>";
         }
         document.getElementById('table_body').innerHTML=html;
     }
-    async function AddTimeToList(idx,name)
+    async function AddTimeToList_in(idx,name)
     {    
       let id=idx;  
       let name1=name; 
@@ -57,27 +61,58 @@ function showVisitAsTable(){
      let currentTime = `${hours}:${minutes}:${seconds}`;
        
         
-        let url = "/sites-time";
+        let url = "/sites-time-in";
         let response=await fetch(url,
             {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({id:id,name:name1,time:currentTime})
+                body: JSON.stringify({id:id,name:name1,time_in:currentTime})
             }
         );
-       AllSites[id].time=currentTime;
-       showTime(id);
+       AllSites[id].time_in=currentTime;
+       showTime_in(id);
        await getAllSites();
        console.log(AllSites);
     }
 
-    function showTime(idx)
+    function showTime_in(idx)
     {
-        document.getElementById(`time_${idx}`).innerHTML = AllSites[idx].time;
+        document.getElementById(`time_in${idx}`).innerHTML = AllSites[idx].time_in;
     }
-   
+    async function AddTimeToList_out(idx,name)
+    {    
+      let id=idx;  
+      let name1=name; 
+      const now = new Date(); // יוצרת אובייקט תאריך עם הזמן הנוכחי
+      const hours = now.getHours().toString().padStart(2, '0'); // שעות בפורמט דו-ספרתי
+      const minutes = now.getMinutes().toString().padStart(2, '0'); // דקות בפורמט דו-ספרתי
+      const seconds = now.getSeconds().toString().padStart(2, '0'); // שניות בפורמט דו-ספרתי
+
+     let currentTime = `${hours}:${minutes}:${seconds}`;
+       
+        
+        let url = "/sites-time-out";
+        let response=await fetch(url,
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id:id,name:name1,time_out:currentTime})
+            }
+        );
+       AllSites[id].time_out=currentTime;
+       showTime_out(id);
+       await getAllSites();
+       console.log(AllSites);
+    }
+
+    function showTime_out(idx)
+    {
+        document.getElementById(`time_out${idx}`).innerHTML = AllSites[idx].time_out;
+    }
  
    async function f1()
     {
