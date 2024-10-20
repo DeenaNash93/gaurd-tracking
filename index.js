@@ -15,7 +15,8 @@ app.post("/sites-time",(req,res)=>{
     let site={};
     let idx    =        req.body.id;
     site.name  =        req.body.name;
-    site.time=          req.body.time;
+    site.time_in =      req.body.time_in;
+    site.time_out =     req.body.time_out;
     sites[idx]=site;
 
     res.status(200).json("ok");
@@ -24,7 +25,8 @@ app.post("/sites",(req,res)=>{
     let site={};
     site.id    =        req.body.id;
     site.name  =        req.body.name;
-    site.time  =        req.body.time;
+    site.time_in =      req.body.time_in;
+    site.time_out =     req.body.time_out;
     sites.push(site);
     
     res.status(200).json("ok");
@@ -36,7 +38,8 @@ app.put("/sites",(req,res)=>{
     let site={};
     let idx    =        req.body.id;
     site.name  =        req.body.name;
-    site.time=          req.body.time;
+    site.time_in =      req.body.time_in;
+    site.time_out =     req.body.time_out;
     sites[idx]=site;
 
     res.status(200).json("ok");
