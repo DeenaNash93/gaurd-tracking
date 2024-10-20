@@ -34,6 +34,12 @@
     </table>
 </div>
 </div>
+<div>
+    <label>בחר מקום ביקור:</label>
+<select id="visit_select">    </select>
+
+<button onclick="AddVisitToList()">ביקרתי</button>    
+</div>
 
 
 <script>
@@ -57,10 +63,10 @@ let AllSites=[];
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({id:"",name:name,time_in:"", time_out:""})
+                body: JSON.stringify({id:"",name:name,time:""})
             }
         );
-      
+      await GetVisits();
     }
     function AddSiteBtn()
     {
@@ -102,6 +108,7 @@ function showSitesAsTable(){
         );
         let data=await response.json();
         await showListSites();
+        await GetVisits();
     }
     function editSite(idx,name)
     {
@@ -113,7 +120,7 @@ function showSitesAsTable(){
         document.getElementById("EditSite").style.display="block";
         let idx   = document.getElementById("num_idx").value;
         let name  = document.getElementById("site_name1").value;
-        let body_data = JSON.stringify({id:idx,name:name,time_in:"", time_out:""});
+        let body_data = JSON.stringify({id:idx,name:name,time:""});
         console.log(body_data);
         let url = "/sites";
         let response=await fetch(url,
@@ -129,6 +136,7 @@ function showSitesAsTable(){
         {
          AllSites[idx].name = name;
         showSitesAsTable();
+        await GetVisits();
         
       
         document.getElementById("EditSite").style.display = "none";
@@ -137,6 +145,7 @@ function showSitesAsTable(){
       {
         console.error("Failed to update site");
       }   
+
     }
 
     
@@ -161,6 +170,44 @@ function showSitesAsTable(){
         document.getElementById('ShowListToManage').style.display="grid";
       
     }
+
+    async function GetVisits() {
+        let url = "/sites";
+        let response = await fetch(url);
+        let data = await response.json();
+        let s="";
+        for(let place_id in data){
+            s+=`<option value="${place_id}">${data[place_id].name}</option>`;
+        }
+        document.getElementById("visit_select").innerHTML=s;
+    }
+    async function AddVisitToList()
+    {    
+        
+      let id=document.getElementById("visit_select").value;  
+      const now = new Date(); // יוצרת אובייקט תאריך עם הזמן הנוכחי
+      const hours = now.getHours().toString().padStart(2, '0'); // שעות בפורמט דו-ספרתי
+      const minutes = now.getMinutes().toString().padStart(2, '0'); // דקות בפורמט דו-ספרתי
+      const seconds = now.getSeconds().toString().padStart(2, '0'); // שניות בפורמט דו-ספרתי
+
+     let currentTime = `${hours}:${minutes}:${seconds}`;
+        
+        let url = "/sites-time";
+        let response=await fetch(url,
+            {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({id:id,time:currentTime})
+            }
+        );
+
+      await getAllSites();
+      console.log(AllSites);
+    }
+
+GetVisits();
 </script>
 </body>
 </html>
