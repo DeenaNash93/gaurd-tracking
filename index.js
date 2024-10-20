@@ -11,35 +11,23 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, "public")));
 
 let sites=[];
-app.post("/sites-time-in",(req,res)=>{
-    let site={};
-    let idx    =        req.body.id;
-    site.name  =        req.body.name;
-    site.time_in =      req.body.time_in;
+app.post("/sites-time",(req,res)=>{
+    let idx   =        req.body.id;
+    let time =      req.body.time;
     sites[idx].id=idx;
-    sites[idx].name=site.name;
-    sites[idx].time_in=site.time_in;
-
+    sites[idx].time=time;
+    
+    res.redirect('/');
     res.status(200).json("ok");
+    console.log(sites);
 });
 
-app.post("/sites-time-out",(req,res)=>{
-    let site={};
-    let idx    =        req.body.id;
-    site.name  =        req.body.name;
-    site.time_out =      req.body.time_out;
-    sites[idx].id=idx;
-    sites[idx].name=site.name;
-    sites[idx].time_out=site.time_out;
 
-    res.status(200).json("ok");
-});
 app.post("/sites",(req,res)=>{
     let site={};
     site.id    =        req.body.id;
     site.name  =        req.body.name;
-    site.time_in =      req.body.time_in;
-    site.time_out =     req.body.time_out;
+    site.time =         req.body.time;
     sites.push(site);
     
     res.status(200).json("ok");
@@ -51,8 +39,7 @@ app.put("/sites",(req,res)=>{
     let site={};
     let idx    =        req.body.id;
     site.name  =        req.body.name;
-    site.time_in =      req.body.time_in;
-    site.time_out =     req.body.time_out;
+    site.time =      req.body.time;
     sites[idx]=site;
 
     res.status(200).json("ok");
