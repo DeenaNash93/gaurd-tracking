@@ -11,13 +11,26 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, "public")));
 
 let sites=[];
-app.post("/sites-time",(req,res)=>{
+app.post("/sites-time-in",(req,res)=>{
     let site={};
     let idx    =        req.body.id;
     site.name  =        req.body.name;
     site.time_in =      req.body.time_in;
-    site.time_out =     req.body.time_out;
-    sites[idx]=site;
+    sites[idx].id=idx;
+    sites[idx].name=site.name;
+    sites[idx].time_in=site.time_in;
+
+    res.status(200).json("ok");
+});
+
+app.post("/sites-time-out",(req,res)=>{
+    let site={};
+    let idx    =        req.body.id;
+    site.name  =        req.body.name;
+    site.time_out =      req.body.time_out;
+    sites[idx].id=idx;
+    sites[idx].name=site.name;
+    sites[idx].time_out=site.time_out;
 
     res.status(200).json("ok");
 });
