@@ -41,11 +41,11 @@ table {
 
   }
 
-  #id_th_time
+  #id_th_time_in,#id_th_time_out
   {
     border-right:1px solid  #ddd ;
   }
-  .td_class
+  .td_class, .td_class1
   {
     border-right:1px solid  #ddd;
   }
