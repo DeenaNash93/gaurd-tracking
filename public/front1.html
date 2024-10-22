@@ -34,12 +34,7 @@
     </table>
 </div>
 </div>
-<div>
-    <label>בחר מקום ביקור:</label>
-<select id="visit_select">    </select>
 
-<button onclick="AddVisitToList()">ביקרתי</button>    
-</div>
 
 
 <script>
@@ -66,7 +61,6 @@ let AllSites=[];
                 body: JSON.stringify({id:"",name:name,time:""})
             }
         );
-      await GetVisits();
     }
     function AddSiteBtn()
     {
@@ -171,43 +165,6 @@ function showSitesAsTable(){
       
     }
 
-    async function GetVisits() {
-        let url = "/sites";
-        let response = await fetch(url);
-        let data = await response.json();
-        let s="";
-        for(let place_id in data){
-            s+=`<option value="${place_id}">${data[place_id].name}</option>`;
-        }
-        document.getElementById("visit_select").innerHTML=s;
-    }
-    async function AddVisitToList()
-    {    
-        
-      let id=document.getElementById("visit_select").value;  
-      const now = new Date(); // יוצרת אובייקט תאריך עם הזמן הנוכחי
-      const hours = now.getHours().toString().padStart(2, '0'); // שעות בפורמט דו-ספרתי
-      const minutes = now.getMinutes().toString().padStart(2, '0'); // דקות בפורמט דו-ספרתי
-      const seconds = now.getSeconds().toString().padStart(2, '0'); // שניות בפורמט דו-ספרתי
-
-     let currentTime = `${hours}:${minutes}:${seconds}`;
-        
-        let url = "/sites-time";
-        let response=await fetch(url,
-            {
-                method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({id:id,time:currentTime})
-            }
-        );
-
-      await getAllSites();
-      console.log(AllSites);
-    }
-
-GetVisits();
 </script>
 </body>
 </html>
