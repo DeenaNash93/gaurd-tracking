@@ -10,24 +10,30 @@ app.use(bodyParser.urlencoded({extended: false}));
 const path = require('path');
 app.use(express.static(path.join(__dirname, "public")));
 
-let sites=[];
-app.post("/sites-time",(req,res)=>{
-    let idx   =        req.body.id;
+let visits=[];
+
+app.get('/sites-time',(req,res)=>
+
+    {res.status(200).json(visits);}
+
+)
+
+app.post('/sites-time',(req,res)=>{
+    let visit={}
+    let name =       req.body.name;
     let time =      req.body.time;
-    sites[idx].id=idx;
-    sites[idx].time=time;
+    visit.name=name;
+    visit.time=time;
+    visits.push(visit);
     
-    res.redirect('/');
     res.status(200).json("ok");
-    console.log(sites);
+    
 });
 
-
-app.post("/sites",(req,res)=>{
+let sites=[];
+app.post('/sites',(req,res)=>{
     let site={};
-    site.id    =        req.body.id;
-    site.name  =        req.body.name;
-    site.time =         req.body.time;
+    site.name  = req.body.name;
     sites.push(site);
     
     res.status(200).json("ok");
@@ -39,7 +45,6 @@ app.put("/sites",(req,res)=>{
     let site={};
     let idx    =        req.body.id;
     site.name  =        req.body.name;
-    site.time =      req.body.time;
     sites[idx]=site;
 
     res.status(200).json("ok");
