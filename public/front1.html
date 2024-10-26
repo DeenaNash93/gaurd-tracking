@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>עריכת מקומות</title>
+    <title>ניהול האתרים</title>
     <link rel="stylesheet" href="/main.css">
 </head>
 <body>
@@ -40,14 +40,15 @@
 <script>
 
 let AllSites=[];
-    async function getAllSites(){
+
+    async function getAllSitesToFront(){
         let url = "/sites";
         let response = await fetch(url);
         let data = await response.json();
         AllSites=data;
     }
 
-    async function AddSiteToList()
+    async function AddSiteToServer()
     {
         let name  = document.getElementById("site_name").value;
         
@@ -58,7 +59,7 @@ let AllSites=[];
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({id:"",name:name,time:""})
+                body: JSON.stringify({name:name})
             }
         );
     }
@@ -68,8 +69,8 @@ let AllSites=[];
     }
    async function AddSite()
     {
-        await AddSiteToList();
-        await getAllSites();
+        await AddSiteToServer();
+        await getAllSitesToFront();
         showSitesAsTable();
         document.getElementById("site_name").value="";
     }
@@ -102,7 +103,6 @@ function showSitesAsTable(){
         );
         let data=await response.json();
         await showListSites();
-        await GetVisits();
     }
     function editSite(idx,name)
     {
@@ -114,8 +114,7 @@ function showSitesAsTable(){
         document.getElementById("EditSite").style.display="block";
         let idx   = document.getElementById("num_idx").value;
         let name  = document.getElementById("site_name1").value;
-        let body_data = JSON.stringify({id:idx,name:name,time:""});
-        console.log(body_data);
+        let body_data = JSON.stringify({id:idx,name:name});
         let url = "/sites";
         let response=await fetch(url,
             {
@@ -128,10 +127,9 @@ function showSitesAsTable(){
         );
         if (response.ok) 
         {
-         AllSites[idx].name = name;
+        AllSites[idx].name = name;
         showSitesAsTable();
-       
-        
+        console.log(AllSites);
       
         document.getElementById("EditSite").style.display = "none";
        } 
@@ -159,7 +157,7 @@ function showSitesAsTable(){
    }
     async function showListSites()
     {
-        await getAllSites();
+        await getAllSitesToFront();
         showSitesAsTable();
         document.getElementById('ShowListToManage').style.display="grid";
       
