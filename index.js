@@ -20,12 +20,13 @@ app.get('/sites-time',(req,res)=>
 
 app.post('/sites-time',(req,res)=>{
     let visit={}
+    let id =         req.body.id;
     let name =       req.body.name;
     let time =      req.body.time;
+    visit.id= id;
     visit.name=name;
     visit.time=time;
     visits.push(visit);
-    
     res.status(200).json("ok");
     
 });
