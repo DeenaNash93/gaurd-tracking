@@ -22,7 +22,6 @@ app.post('/sites-time',(req,res)=>{
     let visit={}
     let name =       req.body.name;
     let time =      req.body.time;
-    visit.id= id;
     visit.name=name;
     visit.time=time;
     visits.push(visit);
